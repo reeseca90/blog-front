@@ -7,12 +7,35 @@ const UserOnePost = (props) => {
   let id = location[3];
 
   const [onePost, setOnePost] = useState([]);
+  const [comUser, setComUser] = useState('');
+  const [comCont, setComCont] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:3000/create/posts/' + id)
       .then(data => setOnePost(data.data))
       .catch(err => console.log(err))
   }, []);
+
+  const commentUser = (e) => {
+    setComUser(e.target.value);
+  }
+
+  const commentContent = (e) => {
+    setComCont(e.target.value);
+  }
+
+  const postComment = () => {
+    const postURL = 'http://localhost:3000/create/posts/' + id;
+
+    axios.post(postURL, { name: comUser, content: comCont })
+     .then(() => {
+       setComUser('');
+       setComCont('');
+       axios.get('http://localhost:3000/create/posts/' + id)
+        .then(data => setOnePost(data.data))
+        .catch(err => console.log(err));
+     });
+  }
 
   if (onePost.post != null ) {
     return(
@@ -25,7 +48,7 @@ const UserOnePost = (props) => {
         <ul>
           {onePost.comments.map((comment) => {
             return (
-              <li>
+              <li key={comment._id}>
                 <div className='commentCard'>
                   <p>{comment.name}, {comment.createDate}</p>
                   <p>{comment.content}</p>
@@ -34,6 +57,14 @@ const UserOnePost = (props) => {
             );
           })}
         </ul>
+        <h4>Add new comment</h4>
+        <form>
+          <label htmlFor='name'>Name: </label>
+          <input type='text' name='name' required={true} onChange={commentUser} value={comUser} />
+          <label htmlFor='content'>Comment: </label>
+          <textarea rows='4' name='content' onChange={commentContent} value={comCont} />
+          <button type='button' onClick={postComment}>Submit</button>
+        </form>
       </div>
     );
   }

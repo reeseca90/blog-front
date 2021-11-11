@@ -16,12 +16,10 @@ const Login = (props) => {
   }
 
   async function submit() {
-    const post = await axios.post(
-      'http://localhost:3000/login', 
-      { username, password }
-    );
-
-    console.log(post.data);
+    axios.post('http://localhost:3000/login', { username, password })
+      .then((res) => {
+        console.log(res);
+      });
   }
 
   return (
