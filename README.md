@@ -10,11 +10,13 @@ Complete:
 - see individual posts and associated comments in both routes
 - Enabling reader comments
 - Integrating user authentication and protected routes on backend
-- User create new posts and comments
+- User: 
+  - create new posts and comments
+  - Edit posts
+  - Delete posts
+  - Delete comments
 
 In progress:
 - Enable as user:
     - Hiding posts
-    - Edit posts
-    - Delete posts
-    - Delete comments
+- Prevent deleting a post if comments exist OR delete all comments at the same time

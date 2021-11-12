@@ -34,8 +34,20 @@ const UserOnePost = (props) => {
         setComUser('');
         setComCont('');
         axios.get('http://localhost:3000/create/posts/' + id, tokenHeader)
-        .then(data => setOnePost(data.data))
-        .catch(err => console.log(err));
+          .then(data => setOnePost(data.data))
+          .catch(err => console.log(err));
+     });
+  }
+
+  const deleteComment = (e) => { 
+    axios.post('http://localhost:3000/create/posts/' + id, 
+      { 
+        commentID: e.target.id
+      }, tokenHeader)
+     .then(() => {
+        axios.get('http://localhost:3000/create/posts/' + id, tokenHeader)
+          .then(data => setOnePost(data.data))
+          .catch(err => console.log(err));
      });
   }
 
@@ -55,6 +67,7 @@ const UserOnePost = (props) => {
                 <div className='commentCard'>
                   <p>{comment.name}, {comment.createDate}</p>
                   <p>{comment.content}</p>
+                  <button type='button' id={comment._id} onClick={deleteComment}>Delete Comment</button>
                 </div>
               </li>
             );
