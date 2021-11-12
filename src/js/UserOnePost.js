@@ -46,6 +46,7 @@ const UserOnePost = (props) => {
         <h2>{onePost.post.title}</h2>
         <p>{onePost.post.createDate}</p>
         <p>{onePost.post.content}</p>
+        <Link to={'/create/posts/' + id + '/edit'} className='link'>Edit Post</Link>
         <h3>comments</h3>
         <ul>
           {onePost.comments.map((comment) => {

@@ -9,6 +9,7 @@ import CreatePost from './CreatePost';
 import ReaderOnePost from './ReaderOnePost';
 import UserOnePost from './UserOnePost';
 import Login from './Login';
+import EditPost from './EditPost';
 import { useState, useEffect } from 'react/cjs/react.development';
 
 function getToken() {
@@ -43,6 +44,7 @@ function App() {
             <Route exact path='/create/posts/new' element={<CreatePost token={getToken()} />} />
             <Route path='/view/posts/:id' element={<ReaderOnePost />} />
             <Route path='/create/posts/:id' element={<UserOnePost token={getToken()} />} />
+            <Route path='/create/posts/:id/edit' element={<EditPost token={getToken()} />} />
           </Routes>
         </section>
         <Footer />
