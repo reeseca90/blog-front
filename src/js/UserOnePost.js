@@ -10,8 +10,10 @@ const UserOnePost = (props) => {
   const [comUser, setComUser] = useState('');
   const [comCont, setComCont] = useState('');
 
+  const tokenHeader = { headers: { 'Authorization': `Bearer ${props.token}` }};
+
   useEffect(() => {
-    axios.get('http://localhost:3000/create/posts/' + id)
+    axios.get('http://localhost:3000/create/posts/' + id, tokenHeader)
       .then(data => setOnePost(data.data))
       .catch(err => console.log(err))
   }, []);
@@ -27,11 +29,11 @@ const UserOnePost = (props) => {
   const postComment = () => {
     const postURL = 'http://localhost:3000/create/posts/' + id;
 
-    axios.post(postURL, { name: comUser, content: comCont })
+    axios.post(postURL, { name: comUser, content: comCont }, tokenHeader)
      .then(() => {
-       setComUser('');
-       setComCont('');
-       axios.get('http://localhost:3000/create/posts/' + id)
+        setComUser('');
+        setComCont('');
+        axios.get('http://localhost:3000/create/posts/' + id, tokenHeader)
         .then(data => setOnePost(data.data))
         .catch(err => console.log(err));
      });

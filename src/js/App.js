@@ -9,25 +9,40 @@ import CreatePost from './CreatePost';
 import ReaderOnePost from './ReaderOnePost';
 import UserOnePost from './UserOnePost';
 import Login from './Login';
+import { useState, useEffect } from 'react/cjs/react.development';
 
+function getToken() {
+  const token = localStorage.getItem('token');
+  if (token != null) {
+    return token;
+  } 
+  else {
+    return null;
+  }
+}
 
 function App() {
 
+  const [tokenHook, setTokenHook] = useState();
 
-  
+  function setToken(token) {
+    localStorage.setItem('token', token.token);
+    setTokenHook(token.token);
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav /> 
+        <Nav token={getToken()} setTokenHook={setTokenHook} /> 
         <section className='mainContent'>
           <Routes>
             <Route exact path='/' element={<Home />} />
-            <Route exact path='/login' element={<Login />} />
-            <Route exact path='/create/posts' element={<Dashboard />} />
+            <Route exact path='/login' element={<Login setToken={setToken} />} />
+            <Route exact path='/create/posts' element={<Dashboard token={getToken()} />} />
             <Route exact path='/view/posts' element={<AllPosts />} />
-            <Route exact path='/create/posts/new' element={<CreatePost />} />
+            <Route exact path='/create/posts/new' element={<CreatePost token={getToken()} />} />
             <Route path='/view/posts/:id' element={<ReaderOnePost />} />
-            <Route path='/create/posts/:id' element={<UserOnePost />} />
+            <Route path='/create/posts/:id' element={<UserOnePost token={getToken()} />} />
           </Routes>
         </section>
         <Footer />

@@ -9,8 +9,15 @@ const CreatePost = (props) => {
   const [cont, setCont] = useState('');
   const [pub, setPub] = useState(false);
 
+  const tokenHeader = { headers: { 'Authorization': `Bearer ${props.token}` }};
+
   const submitPost = () => {
-    axios.post('http://localhost:3000/create/posts/new/', { createDate: Date.now, title: title, content: cont, published: pub })
+    axios.post('http://localhost:3000/create/posts/new/', { 
+      createDate: Date.now, 
+      title: title, 
+      content: cont, 
+      published: pub 
+    }, tokenHeader)
       .then(() => {
         navigate('/create/posts/');
       });

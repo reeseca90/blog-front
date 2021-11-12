@@ -1,8 +1,9 @@
-import axios from 'axios';
 import '../styles/Login.css';
+import { useNavigate } from 'react-router';
 const { useState } = require("react")
 
 const Login = (props) => {
+  const navigate = useNavigate();
 
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -15,12 +16,27 @@ const Login = (props) => {
     setPassword(e.target.value);
   }
 
-  async function submit() {
-    axios.post('http://localhost:3000/login', { username, password })
-      .then((res) => {
-        console.log(res);
-      });
+  async function loginUser(credentials) {
+    return fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    })
+      .then(data => data.json());
   }
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const newToken = await loginUser({
+      username,
+      password
+    });
+    props.setToken(newToken);
+    navigate('/');
+  }
+
 
   return (
     <form method='POST'>
@@ -30,7 +46,7 @@ const Login = (props) => {
       <label htmlFor='password'>Password: </label>
       <input type='password' name='password' required={true} onChange={handlePassword} value={password} />
 
-      <button type='button' onClick={submit}>Submit</button>
+      <button type='submit' onClick={submit}>Submit</button>
     </form>
   )
 }

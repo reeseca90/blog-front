@@ -5,8 +5,10 @@ import axios from 'axios';
 const Dashboard = (props) => {
   const [posts, setPosts] = useState([]);
 
+  const tokenHeader = { headers: { 'Authorization': `Bearer ${props.token}` }};
+
   useEffect(() => {
-    axios.get('http://localhost:3000/view/posts')
+    axios.get('http://localhost:3000/create/posts', tokenHeader)
       .then(data => setPosts([...data.data.posts]))
       .catch(err => console.log(err))
   }, []);
