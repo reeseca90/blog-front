@@ -38,6 +38,15 @@ const CreatePost = (props) => {
       });
   }
 
+  const submitDelete = () => {
+    axios.post('http://localhost:3000/create/posts/' + id + '/edit', { 
+      deletePostID: _id
+    }, tokenHeader)
+      .then(() => {
+        navigate('/create/posts/');
+      });
+  }
+
   const handleTitle = (e) => {
     setTitle(e.target.value);
   }
@@ -59,6 +68,7 @@ const CreatePost = (props) => {
     <div>
       <Link to='/create/posts' className='link'>User All Posts</Link>
       <h2>Edit post post: </h2>
+      <button type='button' onClick={submitDelete}>Delete Post</button>
       <form>
         <label htmlFor='title'>Title: </label>
         <input type='text' name='title' required={true} onChange={handleTitle} value={title} />
